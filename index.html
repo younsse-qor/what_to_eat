@@ -10,8 +10,8 @@
 <link rel="icon" href="icons/icon-192.png" type="image/png" />
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
 
-<meta name="theme-color" content="#f5f1e8" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#201c17" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#fff6ec" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#241b17" media="(prefers-color-scheme: dark)" />
 
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -20,75 +20,106 @@
 
 <style>
   :root {
-    --bg: #f5f1e8;
-    --surface: #fffdf8;
-    --surface-2: #fbf6ec;
-    --ink: #2b2420;
-    --ink-soft: #6b5f52;
-    --ink-faint: #9b8f80;
-    --accent: #a8431e;
-    --accent-ink: #fdf6f0;
-    --accent-soft: #f0ddc9;
-    --herb: #4b6152;
-    --herb-soft: #dfe6dc;
-    --line: #e4dcc9;
-    --line-strong: #d3c8ae;
-    --shadow: 0 1px 2px rgba(43, 36, 32, 0.06), 0 6px 16px -8px rgba(43, 36, 32, 0.18);
-    --radius: 14px;
-    --danger: #a3392f;
+    --bg: #fff6ec;
+    --surface: #ffffff;
+    --surface-2: #fff1e4;
+    --ink: #4a372e;
+    --ink-soft: #8a7466;
+    --ink-faint: #b7a99b;
+    --accent: #ff6f59;
+    --accent-ink: #ffffff;
+    --accent-soft: #ffe0d8;
+    --herb: #2f9c74;
+    --herb-soft: #dcf5e9;
+    --line: #f3e4d6;
+    --line-strong: #ead3bc;
+    --shadow: 0 2px 6px rgba(74, 55, 46, 0.08), 0 10px 24px -12px rgba(255, 111, 89, 0.35);
+    --radius: 20px;
+    --danger: #e0507c;
+
+    --tag-1-bg: #ffe1e9; --tag-1-fg: #c43f63;
+    --tag-2-bg: #fff1bf; --tag-2-fg: #96770a;
+    --tag-3-bg: #d8f5e4; --tag-3-fg: #268a5b;
+    --tag-4-bg: #e7e1ff; --tag-4-fg: #5c4fd1;
+    --tag-5-bg: #d9f0ff; --tag-5-fg: #1c7fb8;
+    --tag-6-bg: #ffe3ce; --tag-6-fg: #c1631a;
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #201c17;
-      --surface: #2a251f;
-      --surface-2: #322c24;
-      --ink: #ece3d6;
-      --ink-soft: #ab9d8a;
-      --ink-faint: #7d7264;
-      --accent: #e08350;
-      --accent-ink: #241209;
-      --accent-soft: #4a3320;
-      --herb: #8fac93;
-      --herb-soft: #33402f;
-      --line: #3d362c;
-      --line-strong: #4c4335;
-      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 20px -8px rgba(0, 0, 0, 0.5);
+      --bg: #241b17;
+      --surface: #2f2420;
+      --surface-2: #3a2c26;
+      --ink: #f5e9de;
+      --ink-soft: #c7b3a3;
+      --ink-faint: #8f7c6e;
+      --accent: #ff8a70;
+      --accent-ink: #2b160f;
+      --accent-soft: #4a2b22;
+      --herb: #6fcb9f;
+      --herb-soft: #234438;
+      --line: #402f27;
+      --line-strong: #4f3b31;
+      --shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 10px 24px -12px rgba(255, 138, 112, 0.3);
+      --danger: #ff7a9c;
+
+      --tag-1-bg: #4a2530; --tag-1-fg: #ffb0c4;
+      --tag-2-bg: #453718; --tag-2-fg: #f5d680;
+      --tag-3-bg: #1d3b2c; --tag-3-fg: #8fe3b8;
+      --tag-4-bg: #2c2650; --tag-4-fg: #c2b6ff;
+      --tag-5-bg: #1b3444; --tag-5-fg: #90d6ff;
+      --tag-6-bg: #452c18; --tag-6-fg: #ffbe86;
     }
   }
 
   :root[data-theme="dark"] {
-    --bg: #201c17;
-    --surface: #2a251f;
-    --surface-2: #322c24;
-    --ink: #ece3d6;
-    --ink-soft: #ab9d8a;
-    --ink-faint: #7d7264;
-    --accent: #e08350;
-    --accent-ink: #241209;
-    --accent-soft: #4a3320;
-    --herb: #8fac93;
-    --herb-soft: #33402f;
-    --line: #3d362c;
-    --line-strong: #4c4335;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 20px -8px rgba(0, 0, 0, 0.5);
+    --bg: #241b17;
+    --surface: #2f2420;
+    --surface-2: #3a2c26;
+    --ink: #f5e9de;
+    --ink-soft: #c7b3a3;
+    --ink-faint: #8f7c6e;
+    --accent: #ff8a70;
+    --accent-ink: #2b160f;
+    --accent-soft: #4a2b22;
+    --herb: #6fcb9f;
+    --herb-soft: #234438;
+    --line: #402f27;
+    --line-strong: #4f3b31;
+    --shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 10px 24px -12px rgba(255, 138, 112, 0.3);
+    --danger: #ff7a9c;
+
+    --tag-1-bg: #4a2530; --tag-1-fg: #ffb0c4;
+    --tag-2-bg: #453718; --tag-2-fg: #f5d680;
+    --tag-3-bg: #1d3b2c; --tag-3-fg: #8fe3b8;
+    --tag-4-bg: #2c2650; --tag-4-fg: #c2b6ff;
+    --tag-5-bg: #1b3444; --tag-5-fg: #90d6ff;
+    --tag-6-bg: #452c18; --tag-6-fg: #ffbe86;
   }
 
   :root[data-theme="light"] {
-    --bg: #f5f1e8;
-    --surface: #fffdf8;
-    --surface-2: #fbf6ec;
-    --ink: #2b2420;
-    --ink-soft: #6b5f52;
-    --ink-faint: #9b8f80;
-    --accent: #a8431e;
-    --accent-ink: #fdf6f0;
-    --accent-soft: #f0ddc9;
-    --herb: #4b6152;
-    --herb-soft: #dfe6dc;
-    --line: #e4dcc9;
-    --line-strong: #d3c8ae;
-    --shadow: 0 1px 2px rgba(43, 36, 32, 0.06), 0 6px 16px -8px rgba(43, 36, 32, 0.18);
+    --bg: #fff6ec;
+    --surface: #ffffff;
+    --surface-2: #fff1e4;
+    --ink: #4a372e;
+    --ink-soft: #8a7466;
+    --ink-faint: #b7a99b;
+    --accent: #ff6f59;
+    --accent-ink: #ffffff;
+    --accent-soft: #ffe0d8;
+    --herb: #2f9c74;
+    --herb-soft: #dcf5e9;
+    --line: #f3e4d6;
+    --line-strong: #ead3bc;
+    --shadow: 0 2px 6px rgba(74, 55, 46, 0.08), 0 10px 24px -12px rgba(255, 111, 89, 0.35);
+    --danger: #e0507c;
+
+    --tag-1-bg: #ffe1e9; --tag-1-fg: #c43f63;
+    --tag-2-bg: #fff1bf; --tag-2-fg: #96770a;
+    --tag-3-bg: #d8f5e4; --tag-3-fg: #268a5b;
+    --tag-4-bg: #e7e1ff; --tag-4-fg: #5c4fd1;
+    --tag-5-bg: #d9f0ff; --tag-5-fg: #1c7fb8;
+    --tag-6-bg: #ffe3ce; --tag-6-fg: #c1631a;
   }
 
   * { box-sizing: border-box; }
@@ -124,7 +155,8 @@
   }
 
   h1 {
-    font-family: ui-serif, Georgia, "Nanum Myeongjo", "Noto Serif KR", serif;
+    font-family: ui-rounded, "SF Pro Rounded", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    font-weight: 800;
     font-size: clamp(26px, 4vw, 34px);
     margin: 0;
     text-wrap: balance;
@@ -167,7 +199,7 @@
     color: var(--ink);
     background: var(--surface);
     border: 1px solid var(--line-strong);
-    border-radius: 10px;
+    border-radius: 14px;
     padding: 10px 12px;
     font-size: 14.5px;
     outline: none;
@@ -200,16 +232,20 @@
     border: 1px solid var(--line-strong);
     background: var(--surface);
     color: var(--ink);
-    padding: 10px 14px;
-    border-radius: 10px;
+    padding: 10px 16px;
+    border-radius: 999px;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     white-space: nowrap;
-    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+    transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease;
   }
 
-  .btn:hover { border-color: var(--line-strong); background: var(--surface-2); }
-  .btn:active { transform: translateY(1px); }
+  .btn:hover { border-color: var(--line-strong); background: var(--surface-2); transform: translateY(-1px); }
+  .btn:active { transform: scale(0.96); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn:hover, .btn:active { transform: none; }
+  }
 
   .btn.primary {
     background: var(--accent);
@@ -236,19 +272,33 @@
   }
 
   .chip {
-    border: 1px solid var(--line-strong);
+    border: 1px solid transparent;
     background: var(--surface);
     color: var(--ink-soft);
     padding: 6px 12px;
     border-radius: 999px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
+    transition: transform 0.12s ease;
   }
 
+  .chip:hover { transform: translateY(-1px); }
+
+  .chip.tag-color-1 { background: var(--tag-1-bg); color: var(--tag-1-fg); }
+  .chip.tag-color-2 { background: var(--tag-2-bg); color: var(--tag-2-fg); }
+  .chip.tag-color-3 { background: var(--tag-3-bg); color: var(--tag-3-fg); }
+  .chip.tag-color-4 { background: var(--tag-4-bg); color: var(--tag-4-fg); }
+  .chip.tag-color-5 { background: var(--tag-5-bg); color: var(--tag-5-fg); }
+  .chip.tag-color-6 { background: var(--tag-6-bg); color: var(--tag-6-fg); }
+
   .chip.active {
-    background: var(--herb-soft);
-    border-color: var(--herb);
-    color: var(--herb);
+    background: var(--ink);
+    color: var(--bg);
+    box-shadow: var(--shadow);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chip:hover { transform: none; }
   }
 
   .count-line {
@@ -263,6 +313,11 @@
     gap: 16px;
   }
 
+  .card-btn {
+    all: unset;
+    cursor: pointer;
+  }
+
   .card {
     position: relative;
     background: var(--surface);
@@ -275,31 +330,41 @@
     flex-direction: column;
     gap: 8px;
     min-height: 150px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
   }
 
-  .card::before {
-    content: "";
-    position: absolute;
-    top: 10px;
-    left: 16px;
-    width: 8px;
-    height: 8px;
+  @media (prefers-reduced-motion: no-preference) {
+    .card:hover {
+      transform: translateY(-4px) rotate(-0.6deg);
+      box-shadow: 0 4px 10px rgba(74, 55, 46, 0.1), 0 16px 30px -14px rgba(255, 111, 89, 0.45);
+    }
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card-badge {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    background: var(--bg);
-    box-shadow: 0 0 0 1.5px var(--line-strong) inset, 22px 0 0 -0.5px var(--bg), 22px 0 0 1px var(--line-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    line-height: 1;
   }
 
   .card-title {
-    font-family: ui-serif, Georgia, "Nanum Myeongjo", "Noto Serif KR", serif;
-    font-size: 18px;
-    margin: 10px 0 0;
+    font-family: ui-rounded, "SF Pro Rounded", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    font-weight: 800;
+    font-size: 17px;
+    margin: 0;
     line-height: 1.3;
     text-wrap: balance;
-  }
-
-  .card-btn {
-    all: unset;
-    cursor: pointer;
   }
 
   .card-meta {
@@ -324,6 +389,13 @@
     color: var(--herb);
   }
 
+  .tag-pill.tag-color-1, .card-badge.tag-color-1 { background: var(--tag-1-bg); color: var(--tag-1-fg); }
+  .tag-pill.tag-color-2, .card-badge.tag-color-2 { background: var(--tag-2-bg); color: var(--tag-2-fg); }
+  .tag-pill.tag-color-3, .card-badge.tag-color-3 { background: var(--tag-3-bg); color: var(--tag-3-fg); }
+  .tag-pill.tag-color-4, .card-badge.tag-color-4 { background: var(--tag-4-bg); color: var(--tag-4-fg); }
+  .tag-pill.tag-color-5, .card-badge.tag-color-5 { background: var(--tag-5-bg); color: var(--tag-5-fg); }
+  .tag-pill.tag-color-6, .card-badge.tag-color-6 { background: var(--tag-6-bg); color: var(--tag-6-fg); }
+
   .card-preview {
     font-size: 13px;
     color: var(--ink-soft);
@@ -340,8 +412,14 @@
     color: var(--ink-soft);
   }
 
+  .empty-emoji {
+    font-size: 44px;
+    margin-bottom: 10px;
+  }
+
   .empty h2 {
-    font-family: ui-serif, Georgia, "Nanum Myeongjo", serif;
+    font-family: ui-rounded, "SF Pro Rounded", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    font-weight: 800;
     font-size: 20px;
     color: var(--ink);
     margin: 0 0 6px;
@@ -364,7 +442,7 @@
 
   .modal {
     background: var(--surface);
-    border-radius: 16px;
+    border-radius: 24px;
     max-width: 640px;
     width: 100%;
     padding: 28px 28px 24px;
@@ -390,10 +468,19 @@
   }
 
   .modal h2 {
-    font-family: ui-serif, Georgia, "Nanum Myeongjo", serif;
-    font-size: 24px;
+    font-family: ui-rounded, "SF Pro Rounded", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    font-weight: 800;
+    font-size: 22px;
     margin: 0;
     text-wrap: balance;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .modal-emoji {
+    font-size: 26px;
+    line-height: 1;
   }
 
   .close-x {
@@ -429,7 +516,7 @@
     font-size: 14.5px;
     padding: 8px 10px;
     background: var(--surface-2);
-    border-radius: 8px;
+    border-radius: 12px;
   }
 
   .ingredient-list li .amt {
@@ -554,6 +641,65 @@
   }
   .step-remove:hover { background: var(--surface-2); color: var(--danger); }
 
+  .emoji-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .emoji-option {
+    all: unset;
+    cursor: pointer;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: var(--surface-2);
+    border: 2px solid transparent;
+    transition: transform 0.12s ease, border-color 0.15s ease;
+  }
+
+  .emoji-option:hover { transform: scale(1.08); }
+
+  .emoji-option.selected {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .emoji-option:hover { transform: none; }
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--bg);
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: var(--shadow);
+    z-index: 30;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-8px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toast, .toast.show { transform: translateX(-50%); }
+  }
+
   .footer-note {
     margin-top: 40px;
     text-align: center;
@@ -587,8 +733,8 @@
 
 <div class="app">
   <header class="top">
-    <span class="eyebrow">나의 레시피 상자</span>
-    <h1>오늘은 뭐 해먹지</h1>
+    <span class="eyebrow">🍳 나의 레시피 상자</span>
+    <h1>오늘은 뭐 해먹지 🤔</h1>
     <p class="sub">그동안 만든 레시피를 모아두고, 검색하거나 가나다순으로 꺼내 보세요.</p>
   </header>
 
@@ -598,13 +744,13 @@
       <input id="search" type="search" placeholder="레시피, 재료, 태그로 검색" autocomplete="off" />
     </div>
     <select id="sortSelect" class="sort-select btn" aria-label="정렬 방식">
-      <option value="alpha">가나다순</option>
-      <option value="recent">최근 추가순</option>
+      <option value="alpha">🔤 가나다순</option>
+      <option value="recent">🕐 최근 추가순</option>
     </select>
-    <button class="btn" id="exportBtn" title="레시피를 JSON 파일로 저장">내보내기</button>
-    <button class="btn" id="importBtn" title="JSON 파일에서 레시피 불러오기">가져오기</button>
+    <button class="btn" id="exportBtn" title="레시피를 JSON 파일로 저장">📤 내보내기</button>
+    <button class="btn" id="importBtn" title="JSON 파일에서 레시피 불러오기">📥 가져오기</button>
     <input type="file" id="importFile" accept="application/json" class="visually-hidden" />
-    <button class="btn primary" id="addBtn">+ 레시피 추가</button>
+    <button class="btn primary" id="addBtn">✨ 레시피 추가</button>
   </div>
 
   <div class="tagbar" id="tagbar"></div>
@@ -612,8 +758,10 @@
 
   <div class="grid" id="grid"></div>
 
-  <p class="footer-note">이 브라우저에만 저장됩니다. 다른 기기에서 보려면 내보내기한 파일을 가져오기 하세요.</p>
+  <p class="footer-note">📱 이 브라우저에만 저장됩니다. 다른 기기에서 보려면 내보내기한 파일을 가져오기 하세요.</p>
 </div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <div class="overlay" id="detailOverlay" hidden>
   <div class="modal" role="dialog" aria-modal="true" id="detailModal"></div>
@@ -633,6 +781,10 @@
         <input id="f-title" type="text" required placeholder="예: 김치찌개" />
       </div>
       <div class="field">
+        <label>아이콘 선택</label>
+        <div id="emojiPicker" class="emoji-picker"></div>
+      </div>
+      <div class="field">
         <label for="f-tags">태그 / 카테고리</label>
         <input id="f-tags" type="text" placeholder="한식, 찌개, 저녁" />
         <p class="hint">쉼표로 구분해서 입력</p>
@@ -645,7 +797,7 @@
       <div class="field">
         <label>조리 순서</label>
         <div id="stepsList" class="step-input-list"></div>
-        <button type="button" class="btn ghost add-step-btn" id="addStepBtn">+ 단계 추가</button>
+        <button type="button" class="btn ghost add-step-btn" id="addStepBtn">➕ 단계 추가</button>
       </div>
       <div class="modal-actions">
         <button type="button" class="btn ghost" id="formCancel">취소</button>
@@ -661,7 +813,10 @@
 
   const STORAGE_KEY = "recipe-box-v1";
 
-  /** @typedef {{id:string, title:string, tags:string[], ingredients:string[], steps:string[], createdAt:number}} Recipe */
+  const EMOJI_CHOICES = ["🍽️","🍚","🍜","🍲","🍛","🍱","🍣","🍤","🍗","🥩","🥓","🍳","🥘","🍕","🌮","🥗","🍞","🧁","🍰","🍩","🍦","🥟","🍢","🌶️","🍹"];
+  const DEFAULT_EMOJI = "🍽️";
+
+  /** @typedef {{id:string, title:string, emoji:string, tags:string[], ingredients:string[], steps:string[], createdAt:number}} Recipe */
 
   /** @type {Recipe[]} */
   let recipes = load();
@@ -675,6 +830,15 @@
   const countLine = $("#countLine");
   const searchInput = $("#search");
   const sortSelect = $("#sortSelect");
+  const toastEl = $("#toast");
+
+  let toastTimer = null;
+  function showToast(message) {
+    toastEl.textContent = message;
+    toastEl.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2200);
+  }
 
   function load() {
     try {
@@ -693,6 +857,7 @@
       {
         id: cryptoId(),
         title: "김치찌개",
+        emoji: "🍲",
         tags: ["한식", "찌개"],
         ingredients: ["신김치 1/2포기", "돼지고기 200g", "두부 1모", "대파 1대", "고춧가루 1큰술"],
         steps: ["냄비에 돼지고기와 김치를 넣고 볶는다", "물을 부어 끓인다", "두부와 대파를 넣고 5분 더 끓인다"],
@@ -701,6 +866,7 @@
       {
         id: cryptoId(),
         title: "계란볶음밥",
+        emoji: "🍳",
         tags: ["한식", "간단요리"],
         ingredients: ["밥 1공기", "계란 2개", "대파 1/4대", "간장 1큰술", "참기름 약간"],
         steps: ["팬에 기름을 두르고 계란을 스크램블한다", "밥을 넣고 볶는다", "간장과 대파를 넣고 마무리한다"],
@@ -723,6 +889,12 @@
 
   function splitTags(text) {
     return text.split(",").map((s) => s.trim()).filter(Boolean);
+  }
+
+  function colorIndex(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+    return (h % 6) + 1;
   }
 
   function allTags() {
@@ -763,8 +935,8 @@
       const empty = document.createElement("div");
       empty.className = "empty";
       empty.innerHTML = recipes.length === 0
-        ? `<h2>아직 레시피가 없어요</h2><p>오른쪽 위 "+ 레시피 추가" 버튼으로 첫 레시피를 넣어보세요.</p>`
-        : `<h2>검색 결과가 없어요</h2><p>다른 검색어나 태그를 시도해보세요.</p>`;
+        ? `<div class="empty-emoji">🍳</div><h2>아직 레시피가 없어요</h2><p>위쪽 "✨ 레시피 추가" 버튼으로 첫 레시피를 넣어보세요.</p>`
+        : `<div class="empty-emoji">🔍</div><h2>검색 결과가 없어요</h2><p>다른 검색어나 태그를 시도해보세요.</p>`;
       grid.appendChild(empty);
       return;
     }
@@ -774,10 +946,13 @@
       card.className = "card card-btn";
       card.setAttribute("aria-haspopup", "dialog");
       card.innerHTML = `
-        <h3 class="card-title">${escapeHtml(r.title)}</h3>
+        <div class="card-top">
+          <span class="card-badge tag-color-${colorIndex(r.id)}">${escapeHtml(r.emoji || DEFAULT_EMOJI)}</span>
+          <h3 class="card-title">${escapeHtml(r.title)}</h3>
+        </div>
         <p class="card-meta">재료 ${r.ingredients.length}개</p>
         <p class="card-preview">${escapeHtml(r.ingredients.slice(0, 3).join(", "))}</p>
-        <div class="card-tags">${r.tags.map((t) => `<span class="tag-pill">${escapeHtml(t)}</span>`).join("")}</div>
+        <div class="card-tags">${r.tags.map((t) => `<span class="tag-pill tag-color-${colorIndex(t)}">${escapeHtml(t)}</span>`).join("")}</div>
       `;
       card.addEventListener("click", () => openDetail(r.id));
       grid.appendChild(card);
@@ -796,7 +971,7 @@
 
     tags.forEach((t) => {
       const chip = document.createElement("button");
-      chip.className = "chip" + (activeTag === t ? " active" : "");
+      chip.className = "chip tag-color-" + colorIndex(t) + (activeTag === t ? " active" : "");
       chip.textContent = t;
       chip.addEventListener("click", () => { activeTag = activeTag === t ? null : t; render(); });
       tagbar.appendChild(chip);
@@ -819,14 +994,14 @@
     detailModal.innerHTML = `
       <div class="modal-head">
         <div>
-          <h2>${escapeHtml(r.title)}</h2>
+          <h2><span class="modal-emoji">${escapeHtml(r.emoji || DEFAULT_EMOJI)}</span>${escapeHtml(r.title)}</h2>
           <p class="card-meta" style="margin-top:6px;">재료 ${r.ingredients.length}개 · 조리 순서 ${r.steps.length}단계</p>
         </div>
         <button class="close-x" aria-label="닫기" id="detailClose">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18" stroke-linecap="round"/></svg>
         </button>
       </div>
-      <div class="card-tags">${r.tags.map((t) => `<span class="tag-pill">${escapeHtml(t)}</span>`).join("")}</div>
+      <div class="card-tags">${r.tags.map((t) => `<span class="tag-pill tag-color-${colorIndex(t)}">${escapeHtml(t)}</span>`).join("")}</div>
       <p class="section-label">재료</p>
       <ul class="ingredient-list">
         ${r.ingredients.map((line) => {
@@ -839,8 +1014,8 @@
         ${r.steps.map((s) => `<li>${escapeHtml(s)}</li>`).join("")}
       </ol>
       <div class="modal-actions">
-        <button class="btn danger" id="detailDelete">삭제</button>
-        <button class="btn" id="detailEdit">수정</button>
+        <button class="btn danger" id="detailDelete">🗑️ 삭제</button>
+        <button class="btn" id="detailEdit">✏️ 수정</button>
         <button class="btn primary" id="detailDone">닫기</button>
       </div>
     `;
@@ -853,6 +1028,7 @@
         save();
         closeDetail();
         render();
+        showToast("🗑️ 삭제했어요");
       }
     });
     $("#detailEdit").addEventListener("click", () => {
@@ -879,6 +1055,25 @@
   const fIngredients = $("#f-ingredients");
   const stepsList = $("#stepsList");
   const addStepBtn = $("#addStepBtn");
+  const emojiPicker = $("#emojiPicker");
+  let selectedEmoji = DEFAULT_EMOJI;
+
+  function renderEmojiPicker(current) {
+    selectedEmoji = current || DEFAULT_EMOJI;
+    emojiPicker.innerHTML = "";
+    EMOJI_CHOICES.forEach((em) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "emoji-option" + (em === selectedEmoji ? " selected" : "");
+      btn.textContent = em;
+      btn.addEventListener("click", () => {
+        selectedEmoji = em;
+        emojiPicker.querySelectorAll(".emoji-option").forEach((b) => b.classList.remove("selected"));
+        btn.classList.add("selected");
+      });
+      emojiPicker.appendChild(btn);
+    });
+  }
 
   function renumberSteps() {
     stepsList.querySelectorAll(".step-input-row").forEach((row, i) => {
@@ -928,6 +1123,7 @@
     editingId = recipe ? recipe.id : null;
     formTitle.textContent = recipe ? "레시피 수정" : "레시피 추가";
     fTitle.value = recipe ? recipe.title : "";
+    renderEmojiPicker(recipe ? recipe.emoji : DEFAULT_EMOJI);
     fTags.value = recipe ? recipe.tags.join(", ") : "";
     fIngredients.value = recipe ? recipe.ingredients.join("\n") : "";
     setStepRows(recipe ? recipe.steps : []);
@@ -955,11 +1151,13 @@
     if (!title) return;
     const payload = {
       title,
+      emoji: selectedEmoji,
       tags: splitTags(fTags.value),
       ingredients: splitLines(fIngredients.value),
       steps: collectSteps(),
     };
-    if (editingId) {
+    const isEdit = Boolean(editingId);
+    if (isEdit) {
       recipes = recipes.map((r) => (r.id === editingId ? { ...r, ...payload } : r));
     } else {
       recipes.push({ id: cryptoId(), createdAt: Date.now(), ...payload });
@@ -967,6 +1165,7 @@
     save();
     closeForm();
     render();
+    showToast(isEdit ? "✏️ 레시피를 수정했어요" : "✨ 레시피를 추가했어요");
   });
 
   // ---- Search / sort ----
@@ -1000,6 +1199,7 @@
         const incoming = parsed.filter((r) => r && typeof r.title === "string").map((r) => ({
           id: r.id || cryptoId(),
           title: r.title,
+          emoji: typeof r.emoji === "string" && r.emoji ? r.emoji : DEFAULT_EMOJI,
           tags: Array.isArray(r.tags) ? r.tags : [],
           ingredients: Array.isArray(r.ingredients) ? r.ingredients : [],
           steps: Array.isArray(r.steps) ? r.steps : [],
@@ -1010,9 +1210,9 @@
         recipes = merged;
         save();
         render();
-        alert(`${incoming.length}개의 레시피를 가져왔어요.`);
+        alert(`🎉 ${incoming.length}개의 레시피를 가져왔어요.`);
       } catch (err) {
-        alert("파일을 읽을 수 없어요. 올바른 레시피 JSON 파일인지 확인해주세요.");
+        alert("😥 파일을 읽을 수 없어요. 올바른 레시피 JSON 파일인지 확인해주세요.");
       } finally {
         importFile.value = "";
       }
