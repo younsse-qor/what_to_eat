@@ -510,15 +510,49 @@
     margin-top: 4px;
   }
 
-  .field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
+  .step-input-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
   }
 
-  @media (max-width: 480px) {
-    .field-row { grid-template-columns: 1fr; }
+  .step-input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
+
+  .step-input-num {
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .step-input-row input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .step-remove {
+    all: unset;
+    cursor: pointer;
+    color: var(--ink-faint);
+    padding: 4px;
+    border-radius: 6px;
+    flex: 0 0 auto;
+    display: flex;
+  }
+  .step-remove:hover { background: var(--surface-2); color: var(--danger); }
 
   .footer-note {
     margin-top: 40px;
@@ -598,16 +632,10 @@
         <label for="f-title">레시피 이름</label>
         <input id="f-title" type="text" required placeholder="예: 김치찌개" />
       </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="f-tags">태그 / 카테고리</label>
-          <input id="f-tags" type="text" placeholder="한식, 찌개, 저녁" />
-          <p class="hint">쉼표로 구분해서 입력</p>
-        </div>
-        <div class="field">
-          <label for="f-time">조리 시간 (선택)</label>
-          <input id="f-time" type="text" placeholder="예: 30분" />
-        </div>
+      <div class="field">
+        <label for="f-tags">태그 / 카테고리</label>
+        <input id="f-tags" type="text" placeholder="한식, 찌개, 저녁" />
+        <p class="hint">쉼표로 구분해서 입력</p>
       </div>
       <div class="field">
         <label for="f-ingredients">재료</label>
@@ -615,9 +643,9 @@
         <p class="hint">한 줄에 재료 하나씩. "재료 분량" 순서로 쓰면 자동으로 정렬돼요.</p>
       </div>
       <div class="field">
-        <label for="f-steps">조리 순서</label>
-        <textarea id="f-steps" placeholder="김치를 볶는다&#10;물을 붓고 끓인다&#10;두부와 돼지고기를 넣는다" style="min-height: 130px;"></textarea>
-        <p class="hint">한 줄에 한 단계씩 적어주세요.</p>
+        <label>조리 순서</label>
+        <div id="stepsList" class="step-input-list"></div>
+        <button type="button" class="btn ghost add-step-btn" id="addStepBtn">+ 단계 추가</button>
       </div>
       <div class="modal-actions">
         <button type="button" class="btn ghost" id="formCancel">취소</button>
@@ -633,7 +661,7 @@
 
   const STORAGE_KEY = "recipe-box-v1";
 
-  /** @typedef {{id:string, title:string, tags:string[], time:string, ingredients:string[], steps:string[], createdAt:number}} Recipe */
+  /** @typedef {{id:string, title:string, tags:string[], ingredients:string[], steps:string[], createdAt:number}} Recipe */
 
   /** @type {Recipe[]} */
   let recipes = load();
@@ -666,7 +694,6 @@
         id: cryptoId(),
         title: "김치찌개",
         tags: ["한식", "찌개"],
-        time: "30분",
         ingredients: ["신김치 1/2포기", "돼지고기 200g", "두부 1모", "대파 1대", "고춧가루 1큰술"],
         steps: ["냄비에 돼지고기와 김치를 넣고 볶는다", "물을 부어 끓인다", "두부와 대파를 넣고 5분 더 끓인다"],
         createdAt: Date.now() - 200000,
@@ -675,7 +702,6 @@
         id: cryptoId(),
         title: "계란볶음밥",
         tags: ["한식", "간단요리"],
-        time: "10분",
         ingredients: ["밥 1공기", "계란 2개", "대파 1/4대", "간장 1큰술", "참기름 약간"],
         steps: ["팬에 기름을 두르고 계란을 스크램블한다", "밥을 넣고 볶는다", "간장과 대파를 넣고 마무리한다"],
         createdAt: Date.now() - 100000,
@@ -749,7 +775,7 @@
       card.setAttribute("aria-haspopup", "dialog");
       card.innerHTML = `
         <h3 class="card-title">${escapeHtml(r.title)}</h3>
-        <p class="card-meta">${r.time ? escapeHtml(r.time) + " · " : ""}재료 ${r.ingredients.length}개</p>
+        <p class="card-meta">재료 ${r.ingredients.length}개</p>
         <p class="card-preview">${escapeHtml(r.ingredients.slice(0, 3).join(", "))}</p>
         <div class="card-tags">${r.tags.map((t) => `<span class="tag-pill">${escapeHtml(t)}</span>`).join("")}</div>
       `;
@@ -794,7 +820,7 @@
       <div class="modal-head">
         <div>
           <h2>${escapeHtml(r.title)}</h2>
-          <p class="card-meta" style="margin-top:6px;">${r.time ? escapeHtml(r.time) : "조리 시간 미정"}</p>
+          <p class="card-meta" style="margin-top:6px;">재료 ${r.ingredients.length}개 · 조리 순서 ${r.steps.length}단계</p>
         </div>
         <button class="close-x" aria-label="닫기" id="detailClose">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18" stroke-linecap="round"/></svg>
@@ -850,18 +876,61 @@
   const recipeForm = $("#recipeForm");
   const fTitle = $("#f-title");
   const fTags = $("#f-tags");
-  const fTime = $("#f-time");
   const fIngredients = $("#f-ingredients");
-  const fSteps = $("#f-steps");
+  const stepsList = $("#stepsList");
+  const addStepBtn = $("#addStepBtn");
+
+  function renumberSteps() {
+    stepsList.querySelectorAll(".step-input-row").forEach((row, i) => {
+      row.querySelector(".step-input-num").textContent = String(i + 1);
+    });
+  }
+
+  function addStepRow(value) {
+    const row = document.createElement("div");
+    row.className = "step-input-row";
+    row.innerHTML = `
+      <span class="step-input-num"></span>
+      <input type="text" class="step-input" placeholder="예: 김치를 볶는다" />
+      <button type="button" class="step-remove" aria-label="이 단계 삭제">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18" stroke-linecap="round"/></svg>
+      </button>
+    `;
+    row.querySelector(".step-input").value = value || "";
+    row.querySelector(".step-remove").addEventListener("click", () => {
+      row.remove();
+      renumberSteps();
+    });
+    stepsList.appendChild(row);
+    renumberSteps();
+    return row;
+  }
+
+  function setStepRows(steps) {
+    stepsList.innerHTML = "";
+    const values = steps && steps.length ? steps : [""];
+    values.forEach((v) => addStepRow(v));
+  }
+
+  function collectSteps() {
+    return Array.from(stepsList.querySelectorAll(".step-input"))
+      .map((el) => el.value.trim())
+      .filter(Boolean);
+  }
+
+  addStepBtn.addEventListener("click", () => {
+    addStepRow();
+    const inputs = stepsList.querySelectorAll(".step-input");
+    inputs[inputs.length - 1].focus();
+  });
 
   function openForm(recipe) {
     editingId = recipe ? recipe.id : null;
     formTitle.textContent = recipe ? "레시피 수정" : "레시피 추가";
     fTitle.value = recipe ? recipe.title : "";
     fTags.value = recipe ? recipe.tags.join(", ") : "";
-    fTime.value = recipe ? recipe.time : "";
     fIngredients.value = recipe ? recipe.ingredients.join("\n") : "";
-    fSteps.value = recipe ? recipe.steps.join("\n") : "";
+    setStepRows(recipe ? recipe.steps : []);
     formOverlay.hidden = false;
     fTitle.focus();
   }
@@ -870,6 +939,7 @@
     formOverlay.hidden = true;
     editingId = null;
     recipeForm.reset();
+    setStepRows([]);
   }
 
   $("#addBtn").addEventListener("click", () => openForm(null));
@@ -886,9 +956,8 @@
     const payload = {
       title,
       tags: splitTags(fTags.value),
-      time: fTime.value.trim(),
       ingredients: splitLines(fIngredients.value),
-      steps: splitLines(fSteps.value),
+      steps: collectSteps(),
     };
     if (editingId) {
       recipes = recipes.map((r) => (r.id === editingId ? { ...r, ...payload } : r));
@@ -932,7 +1001,6 @@
           id: r.id || cryptoId(),
           title: r.title,
           tags: Array.isArray(r.tags) ? r.tags : [],
-          time: r.time || "",
           ingredients: Array.isArray(r.ingredients) ? r.ingredients : [],
           steps: Array.isArray(r.steps) ? r.steps : [],
           createdAt: r.createdAt || Date.now(),
