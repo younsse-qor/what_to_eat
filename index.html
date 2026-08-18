@@ -340,24 +340,6 @@
     }
   }
 
-  .card-top {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .card-badge {
-    flex: 0 0 auto;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 21px;
-    line-height: 1;
-  }
-
   .card-title {
     font-family: ui-rounded, "SF Pro Rounded", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
     font-weight: 800;
@@ -389,12 +371,12 @@
     color: var(--herb);
   }
 
-  .tag-pill.tag-color-1, .card-badge.tag-color-1 { background: var(--tag-1-bg); color: var(--tag-1-fg); }
-  .tag-pill.tag-color-2, .card-badge.tag-color-2 { background: var(--tag-2-bg); color: var(--tag-2-fg); }
-  .tag-pill.tag-color-3, .card-badge.tag-color-3 { background: var(--tag-3-bg); color: var(--tag-3-fg); }
-  .tag-pill.tag-color-4, .card-badge.tag-color-4 { background: var(--tag-4-bg); color: var(--tag-4-fg); }
-  .tag-pill.tag-color-5, .card-badge.tag-color-5 { background: var(--tag-5-bg); color: var(--tag-5-fg); }
-  .tag-pill.tag-color-6, .card-badge.tag-color-6 { background: var(--tag-6-bg); color: var(--tag-6-fg); }
+  .tag-pill.tag-color-1 { background: var(--tag-1-bg); color: var(--tag-1-fg); }
+  .tag-pill.tag-color-2 { background: var(--tag-2-bg); color: var(--tag-2-fg); }
+  .tag-pill.tag-color-3 { background: var(--tag-3-bg); color: var(--tag-3-fg); }
+  .tag-pill.tag-color-4 { background: var(--tag-4-bg); color: var(--tag-4-fg); }
+  .tag-pill.tag-color-5 { background: var(--tag-5-bg); color: var(--tag-5-fg); }
+  .tag-pill.tag-color-6 { background: var(--tag-6-bg); color: var(--tag-6-fg); }
 
   .card-preview {
     font-size: 13px;
@@ -473,14 +455,6 @@
     font-size: 22px;
     margin: 0;
     text-wrap: balance;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .modal-emoji {
-    font-size: 26px;
-    line-height: 1;
   }
 
   .close-x {
@@ -641,38 +615,6 @@
   }
   .step-remove:hover { background: var(--surface-2); color: var(--danger); }
 
-  .emoji-picker {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .emoji-option {
-    all: unset;
-    cursor: pointer;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    background: var(--surface-2);
-    border: 2px solid transparent;
-    transition: transform 0.12s ease, border-color 0.15s ease;
-  }
-
-  .emoji-option:hover { transform: scale(1.08); }
-
-  .emoji-option.selected {
-    border-color: var(--accent);
-    background: var(--accent-soft);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .emoji-option:hover { transform: none; }
-  }
-
   .toast {
     position: fixed;
     bottom: 24px;
@@ -781,10 +723,6 @@
         <input id="f-title" type="text" required placeholder="예: 김치찌개" />
       </div>
       <div class="field">
-        <label>아이콘 선택</label>
-        <div id="emojiPicker" class="emoji-picker"></div>
-      </div>
-      <div class="field">
         <label for="f-tags">태그 / 카테고리</label>
         <input id="f-tags" type="text" placeholder="한식, 찌개, 저녁" />
         <p class="hint">쉼표로 구분해서 입력</p>
@@ -813,10 +751,7 @@
 
   const STORAGE_KEY = "recipe-box-v1";
 
-  const EMOJI_CHOICES = ["🍽️","🍚","🍜","🍲","🍛","🍱","🍣","🍤","🍗","🥩","🥓","🍳","🥘","🍕","🌮","🥗","🍞","🧁","🍰","🍩","🍦","🥟","🍢","🌶️","🍹"];
-  const DEFAULT_EMOJI = "🍽️";
-
-  /** @typedef {{id:string, title:string, emoji:string, tags:string[], ingredients:string[], steps:string[], createdAt:number}} Recipe */
+  /** @typedef {{id:string, title:string, tags:string[], ingredients:string[], steps:string[], createdAt:number}} Recipe */
 
   /** @type {Recipe[]} */
   let recipes = load();
@@ -857,7 +792,6 @@
       {
         id: cryptoId(),
         title: "김치찌개",
-        emoji: "🍲",
         tags: ["한식", "찌개"],
         ingredients: ["신김치 1/2포기", "돼지고기 200g", "두부 1모", "대파 1대", "고춧가루 1큰술"],
         steps: ["냄비에 돼지고기와 김치를 넣고 볶는다", "물을 부어 끓인다", "두부와 대파를 넣고 5분 더 끓인다"],
@@ -866,7 +800,6 @@
       {
         id: cryptoId(),
         title: "계란볶음밥",
-        emoji: "🍳",
         tags: ["한식", "간단요리"],
         ingredients: ["밥 1공기", "계란 2개", "대파 1/4대", "간장 1큰술", "참기름 약간"],
         steps: ["팬에 기름을 두르고 계란을 스크램블한다", "밥을 넣고 볶는다", "간장과 대파를 넣고 마무리한다"],
@@ -946,10 +879,7 @@
       card.className = "card card-btn";
       card.setAttribute("aria-haspopup", "dialog");
       card.innerHTML = `
-        <div class="card-top">
-          <span class="card-badge tag-color-${colorIndex(r.id)}">${escapeHtml(r.emoji || DEFAULT_EMOJI)}</span>
-          <h3 class="card-title">${escapeHtml(r.title)}</h3>
-        </div>
+        <h3 class="card-title">${escapeHtml(r.title)}</h3>
         <p class="card-meta">재료 ${r.ingredients.length}개</p>
         <p class="card-preview">${escapeHtml(r.ingredients.slice(0, 3).join(", "))}</p>
         <div class="card-tags">${r.tags.map((t) => `<span class="tag-pill tag-color-${colorIndex(t)}">${escapeHtml(t)}</span>`).join("")}</div>
@@ -994,7 +924,7 @@
     detailModal.innerHTML = `
       <div class="modal-head">
         <div>
-          <h2><span class="modal-emoji">${escapeHtml(r.emoji || DEFAULT_EMOJI)}</span>${escapeHtml(r.title)}</h2>
+          <h2>${escapeHtml(r.title)}</h2>
           <p class="card-meta" style="margin-top:6px;">재료 ${r.ingredients.length}개 · 조리 순서 ${r.steps.length}단계</p>
         </div>
         <button class="close-x" aria-label="닫기" id="detailClose">
@@ -1055,25 +985,6 @@
   const fIngredients = $("#f-ingredients");
   const stepsList = $("#stepsList");
   const addStepBtn = $("#addStepBtn");
-  const emojiPicker = $("#emojiPicker");
-  let selectedEmoji = DEFAULT_EMOJI;
-
-  function renderEmojiPicker(current) {
-    selectedEmoji = current || DEFAULT_EMOJI;
-    emojiPicker.innerHTML = "";
-    EMOJI_CHOICES.forEach((em) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "emoji-option" + (em === selectedEmoji ? " selected" : "");
-      btn.textContent = em;
-      btn.addEventListener("click", () => {
-        selectedEmoji = em;
-        emojiPicker.querySelectorAll(".emoji-option").forEach((b) => b.classList.remove("selected"));
-        btn.classList.add("selected");
-      });
-      emojiPicker.appendChild(btn);
-    });
-  }
 
   function renumberSteps() {
     stepsList.querySelectorAll(".step-input-row").forEach((row, i) => {
@@ -1123,7 +1034,6 @@
     editingId = recipe ? recipe.id : null;
     formTitle.textContent = recipe ? "레시피 수정" : "레시피 추가";
     fTitle.value = recipe ? recipe.title : "";
-    renderEmojiPicker(recipe ? recipe.emoji : DEFAULT_EMOJI);
     fTags.value = recipe ? recipe.tags.join(", ") : "";
     fIngredients.value = recipe ? recipe.ingredients.join("\n") : "";
     setStepRows(recipe ? recipe.steps : []);
@@ -1151,7 +1061,6 @@
     if (!title) return;
     const payload = {
       title,
-      emoji: selectedEmoji,
       tags: splitTags(fTags.value),
       ingredients: splitLines(fIngredients.value),
       steps: collectSteps(),
@@ -1199,7 +1108,6 @@
         const incoming = parsed.filter((r) => r && typeof r.title === "string").map((r) => ({
           id: r.id || cryptoId(),
           title: r.title,
-          emoji: typeof r.emoji === "string" && r.emoji ? r.emoji : DEFAULT_EMOJI,
           tags: Array.isArray(r.tags) ? r.tags : [],
           ingredients: Array.isArray(r.ingredients) ? r.ingredients : [],
           steps: Array.isArray(r.steps) ? r.steps : [],
