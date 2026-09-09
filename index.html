@@ -700,7 +700,7 @@
 
   <div class="grid" id="grid"></div>
 
-  <p class="footer-note">📱 이 브라우저에만 저장됩니다. 다른 기기에서 보려면 내보내기한 파일을 가져오기 하세요.</p>
+  <p class="footer-note">☁️ 모든 기기에서 실시간으로 자동 동기화됩니다.</p>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -745,16 +745,41 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 (function () {
   "use strict";
 
-  const STORAGE_KEY = "recipe-box-v1";
+  const SUPABASE_URL = "https://syinhvklittqwnxzqawy.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_sMrC1JlVzMFCnU9MOqOyZQ_cmbkpdK6";
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   /** @typedef {{id:string, title:string, tags:string[], ingredients:string[], steps:string[], createdAt:number}} Recipe */
 
+  function toRow(recipe) {
+    return {
+      id: recipe.id,
+      title: recipe.title,
+      tags: recipe.tags,
+      ingredients: recipe.ingredients,
+      steps: recipe.steps,
+      created_at: recipe.createdAt,
+    };
+  }
+
+  function fromRow(row) {
+    return {
+      id: row.id,
+      title: row.title,
+      tags: row.tags || [],
+      ingredients: row.ingredients || [],
+      steps: row.steps || [],
+      createdAt: row.created_at,
+    };
+  }
+
   /** @type {Recipe[]} */
-  let recipes = load();
+  let recipes = [];
   let activeTag = null;
   let sortMode = "alpha";
   let editingId = null;
@@ -775,41 +800,63 @@
     toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2200);
   }
 
-  function load() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return seedData();
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length) return parsed;
-      return seedData();
-    } catch (e) {
-      return seedData();
+  function upsertLocal(recipe) {
+    const i = recipes.findIndex((r) => r.id === recipe.id);
+    if (i === -1) recipes.push(recipe);
+    else recipes[i] = recipe;
+  }
+
+  function removeLocal(id) {
+    recipes = recipes.filter((r) => r.id !== id);
+  }
+
+  async function loadRecipes() {
+    const { data, error } = await sb.from("recipes").select("*").order("created_at", { ascending: false });
+    if (error) {
+      grid.innerHTML = `<div class="empty"><div class="empty-emoji">😥</div><h2>불러오지 못했어요</h2><p>인터넷 연결을 확인하고 새로고침 해보세요.</p></div>`;
+      return;
     }
+    recipes = (data || []).map(fromRow);
+    render();
   }
 
-  function seedData() {
-    return [
-      {
-        id: cryptoId(),
-        title: "김치찌개",
-        tags: ["한식", "찌개"],
-        ingredients: ["신김치 1/2포기", "돼지고기 200g", "두부 1모", "대파 1대", "고춧가루 1큰술"],
-        steps: ["냄비에 돼지고기와 김치를 넣고 볶는다", "물을 부어 끓인다", "두부와 대파를 넣고 5분 더 끓인다"],
-        createdAt: Date.now() - 200000,
-      },
-      {
-        id: cryptoId(),
-        title: "계란볶음밥",
-        tags: ["한식", "간단요리"],
-        ingredients: ["밥 1공기", "계란 2개", "대파 1/4대", "간장 1큰술", "참기름 약간"],
-        steps: ["팬에 기름을 두르고 계란을 스크램블한다", "밥을 넣고 볶는다", "간장과 대파를 넣고 마무리한다"],
-        createdAt: Date.now() - 100000,
-      },
-    ];
+  function subscribeRealtime() {
+    sb.channel("recipes-changes")
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "recipes" }, (payload) => {
+        upsertLocal(fromRow(payload.new));
+        render();
+      })
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "recipes" }, (payload) => {
+        upsertLocal(fromRow(payload.new));
+        render();
+      })
+      .on("postgres_changes", { event: "DELETE", schema: "public", table: "recipes" }, (payload) => {
+        removeLocal(payload.old.id);
+        render();
+      })
+      .subscribe();
   }
 
-  function save() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(recipes));
+  async function insertRecipe(payload) {
+    const row = toRow({ id: cryptoId(), createdAt: Date.now(), ...payload });
+    const { data, error } = await sb.from("recipes").insert(row).select().single();
+    if (error) return { error };
+    upsertLocal(fromRow(data));
+    return { data };
+  }
+
+  async function updateRecipeRemote(id, payload) {
+    const { data, error } = await sb.from("recipes").update(payload).eq("id", id).select().single();
+    if (error) return { error };
+    upsertLocal(fromRow(data));
+    return { data };
+  }
+
+  async function deleteRecipeRemote(id) {
+    const { error } = await sb.from("recipes").delete().eq("id", id);
+    if (error) return { error };
+    removeLocal(id);
+    return {};
   }
 
   function cryptoId() {
@@ -952,10 +999,10 @@
     detailOverlay.hidden = false;
     $("#detailClose").addEventListener("click", closeDetail);
     $("#detailDone").addEventListener("click", closeDetail);
-    $("#detailDelete").addEventListener("click", () => {
+    $("#detailDelete").addEventListener("click", async () => {
       if (confirm(`"${r.title}" 레시피를 삭제할까요?`)) {
-        recipes = recipes.filter((x) => x.id !== id);
-        save();
+        const { error } = await deleteRecipeRemote(id);
+        if (error) { showToast("😥 삭제하지 못했어요"); return; }
         closeDetail();
         render();
         showToast("🗑️ 삭제했어요");
@@ -1055,7 +1102,7 @@
     if (e.target === formOverlay) closeForm();
   });
 
-  recipeForm.addEventListener("submit", (e) => {
+  recipeForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const title = fTitle.value.trim();
     if (!title) return;
@@ -1066,12 +1113,16 @@
       steps: collectSteps(),
     };
     const isEdit = Boolean(editingId);
-    if (isEdit) {
-      recipes = recipes.map((r) => (r.id === editingId ? { ...r, ...payload } : r));
-    } else {
-      recipes.push({ id: cryptoId(), createdAt: Date.now(), ...payload });
+    const formSubmit = $("#formSubmit");
+    formSubmit.disabled = true;
+    const result = isEdit
+      ? await updateRecipeRemote(editingId, payload)
+      : await insertRecipe(payload);
+    formSubmit.disabled = false;
+    if (result.error) {
+      showToast("😥 저장하지 못했어요");
+      return;
     }
-    save();
     closeForm();
     render();
     showToast(isEdit ? "✏️ 레시피를 수정했어요" : "✨ 레시피를 추가했어요");
@@ -1101,22 +1152,28 @@
     const file = importFile.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       try {
         const parsed = JSON.parse(String(reader.result));
         if (!Array.isArray(parsed)) throw new Error("invalid");
-        const incoming = parsed.filter((r) => r && typeof r.title === "string").map((r) => ({
-          id: r.id || cryptoId(),
-          title: r.title,
-          tags: Array.isArray(r.tags) ? r.tags : [],
-          ingredients: Array.isArray(r.ingredients) ? r.ingredients : [],
-          steps: Array.isArray(r.steps) ? r.steps : [],
-          createdAt: r.createdAt || Date.now(),
-        }));
         const existingIds = new Set(recipes.map((r) => r.id));
-        const merged = recipes.concat(incoming.filter((r) => !existingIds.has(r.id)));
-        recipes = merged;
-        save();
+        const incoming = parsed
+          .filter((r) => r && typeof r.title === "string" && !existingIds.has(r.id))
+          .map((r) => ({
+            id: r.id || cryptoId(),
+            title: r.title,
+            tags: Array.isArray(r.tags) ? r.tags : [],
+            ingredients: Array.isArray(r.ingredients) ? r.ingredients : [],
+            steps: Array.isArray(r.steps) ? r.steps : [],
+            createdAt: r.createdAt || Date.now(),
+          }));
+        if (incoming.length === 0) {
+          alert("가져올 새 레시피가 없어요 (이미 다 있는 레시피예요).");
+          return;
+        }
+        const { data, error } = await sb.from("recipes").insert(incoming.map(toRow)).select();
+        if (error) throw error;
+        (data || []).forEach((row) => upsertLocal(fromRow(row)));
         render();
         alert(`🎉 ${incoming.length}개의 레시피를 가져왔어요.`);
       } catch (err) {
@@ -1135,7 +1192,9 @@
     else if (!detailOverlay.hidden) closeDetail();
   });
 
-  render();
+  grid.innerHTML = `<div class="empty"><div class="empty-emoji">⏳</div><h2>불러오는 중...</h2></div>`;
+  loadRecipes();
+  subscribeRealtime();
 })();
 </script>
 </body>

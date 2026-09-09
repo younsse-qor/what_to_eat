@@ -15,9 +15,25 @@ GitHub Pages로도 열 수 있습니다: 저장소 Settings > Pages에서 `main`
 - 가나다순 정렬 / 최근 추가순 정렬
 - 이름·재료·태그 검색
 - 태그별 필터링
-- 브라우저 저장(localStorage) — 새로고침해도 데이터 유지
-- JSON 내보내기 / 가져오기로 기기 간 백업 이동
+- **Supabase 실시간 동기화** — 어느 기기에서 추가/수정/삭제해도 다른 기기에 자동 반영
+- JSON 내보내기 / 가져오기로 백업 및 대량 이동
 
 ## 참고
 
-레시피 데이터는 이 파일을 연 브라우저에만 저장됩니다(서버 없음). 다른 기기와 데이터를 맞추려면 앱의 "내보내기" 버튼으로 JSON 파일을 받아서 다른 기기에서 "가져오기" 하면 됩니다.
+레시피 데이터는 Supabase(무료 Postgres DB)에 저장되며, `index.html`에 공개용 anon 키가 포함되어 있습니다(로그인 기능이 없는 개인용 앱이라 URL과 키를 아는 사람은 누구나 읽기/쓰기가 가능한 구조입니다). 데이터베이스 스키마는 아래 SQL로 생성했습니다:
+
+```sql
+create table recipes (
+  id text primary key,
+  title text not null,
+  tags text[] not null default '{}',
+  ingredients text[] not null default '{}',
+  steps text[] not null default '{}',
+  created_at bigint not null
+);
+
+alter table recipes enable row level security;
+create policy "Allow public access" on recipes for all using (true) with check (true);
+
+alter publication supabase_realtime add table recipes;
+```
